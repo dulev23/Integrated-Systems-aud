@@ -1,5 +1,5 @@
-﻿using EShop.Web.Models.Domain;
-using EShop.Web.Models.Identity;
+﻿using EShop.Domain.DomainModels;
+using EShop.Domain.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 

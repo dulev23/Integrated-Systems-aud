@@ -1,6 +1,6 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using EShop.Web.Models;
+using EShop.Domain;
 
 namespace EShop.Web.Controllers;
 

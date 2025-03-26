@@ -4,6 +4,7 @@ using EShop.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EShop.Web.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250326213026_Onion")]
+    partial class Onion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -86,9 +89,7 @@ namespace EShop.Web.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("OwnerId")
-                        .IsUnique()
-                        .HasFilter("[OwnerId] IS NOT NULL");
+                    b.HasIndex("OwnerId");
 
                     b.ToTable("ShoppingCarts");
                 });
@@ -326,8 +327,8 @@ namespace EShop.Web.Data.Migrations
             modelBuilder.Entity("EShop.Domain.DomainModels.ShoppingCart", b =>
                 {
                     b.HasOne("EShop.Domain.Identity.EShopApplicationUser", "Owner")
-                        .WithOne("UserCart")
-                        .HasForeignKey("EShop.Domain.DomainModels.ShoppingCart", "OwnerId");
+                        .WithMany()
+                        .HasForeignKey("OwnerId");
 
                     b.Navigation("Owner");
                 });
@@ -391,11 +392,6 @@ namespace EShop.Web.Data.Migrations
             modelBuilder.Entity("EShop.Domain.DomainModels.ShoppingCart", b =>
                 {
                     b.Navigation("ProductInShoppingCarts");
-                });
-
-            modelBuilder.Entity("EShop.Domain.Identity.EShopApplicationUser", b =>
-                {
-                    b.Navigation("UserCart");
                 });
 #pragma warning restore 612, 618
         }

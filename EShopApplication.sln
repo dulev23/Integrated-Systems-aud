@@ -1,11 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35825.156 d17.13
+VisualStudioVersion = 17.13.35825.156
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EShop", "EShop", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.Web", "EShop.Web\EShop.Web.csproj", "{3CD6FE07-CA67-4354-9D43-FF6DCF719CAC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShop.Domain", "EShop.Domain\EShop.Domain.csproj", "{6149C061-11CC-44A9-85F9-329237782C29}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +19,17 @@ Global
 		{3CD6FE07-CA67-4354-9D43-FF6DCF719CAC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3CD6FE07-CA67-4354-9D43-FF6DCF719CAC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3CD6FE07-CA67-4354-9D43-FF6DCF719CAC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6149C061-11CC-44A9-85F9-329237782C29}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6149C061-11CC-44A9-85F9-329237782C29}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6149C061-11CC-44A9-85F9-329237782C29}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6149C061-11CC-44A9-85F9-329237782C29}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{3CD6FE07-CA67-4354-9D43-FF6DCF719CAC} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{6149C061-11CC-44A9-85F9-329237782C29} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {93B56D4B-DBEB-4912-9006-3416D05EFB23}

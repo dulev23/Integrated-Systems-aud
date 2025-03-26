@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using EShop.Web.Data;
-using EShop.Web.Models.Identity;
+using EShop.Domain.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 

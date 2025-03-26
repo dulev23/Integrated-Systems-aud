@@ -1,7 +1,7 @@
-﻿using EShop.Web.Models.Identity;
+﻿using EShop.Domain.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace EShop.Web.Models.Domain
+namespace EShop.Domain.DomainModels
 {
     public class ShoppingCart
     {
@@ -9,7 +9,6 @@ namespace EShop.Web.Models.Domain
         public Guid Id { get; set; }
         public string? OwnerId { get; set; }
         public EShopApplicationUser? Owner { get; set; }
-        public virtual ICollection<ProductInShoppingCart>? AllProducts { get; set; }
-
+        public virtual ICollection<ProductInShoppingCart>? ProductInShoppingCarts { get; set; }
     }
 }
