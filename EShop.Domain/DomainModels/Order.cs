@@ -12,5 +12,6 @@ namespace EShop.Domain.DomainModels
         public string? OwnerId { get; set; }
         public EShopApplicationUser? Owner { get; set; }
         public ICollection<ProductInOrder>? ProductInOrders { get; set; }
+        public double? Total {  get; set; }
     }
 }

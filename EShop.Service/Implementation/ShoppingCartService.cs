@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Mail;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,11 +16,57 @@ namespace EShop.Service.Implementation
     {
         private readonly IRepository<ShoppingCart> _shoppingCartRepository;
         private readonly IRepository<ProductInShoppingCart> _productInShoppingCartRepository;
+        private readonly IRepository<Order> _orderRepository;
+        private readonly IRepository<ProductInOrder> _productInOrderRepository;
 
-        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository, IRepository<ProductInShoppingCart> productInShoppingCartRepository)
+        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository, IRepository<ProductInShoppingCart> productInShoppingCartRepository, IRepository<Order> orderRepository, IRepository<ProductInOrder> productInOrderRepository)
         {
             _shoppingCartRepository = shoppingCartRepository;
             _productInShoppingCartRepository = productInShoppingCartRepository;
+            _orderRepository = orderRepository;
+            _productInOrderRepository = productInOrderRepository;
+        }
+
+        public bool OrderProducts(string userId)
+        {
+            var shoppingCart = _shoppingCartRepository.Get(selector: x => x,
+               predicate: x => x.OwnerId == userId,
+               include: x => x.Include(y => y.ProductInShoppingCarts).ThenInclude(z => z.Product));
+
+            var newOrder = new Order
+            {
+                Id = Guid.NewGuid(),
+                Owner = shoppingCart.Owner,
+                OwnerId = userId,
+                Total = 0.0
+            };
+
+            _orderRepository.Insert(newOrder);
+
+            var productsInOrder = shoppingCart.ProductInShoppingCarts.Select(x => new ProductInOrder
+            {
+                OrderId = newOrder.Id,
+                Order = newOrder,
+                ProductId = x.ProductId,
+                OrderedProduct = x.Product,
+                Quantity = x.Quantity
+            });
+
+            double total = 0.0;
+
+            foreach (var product in productsInOrder)
+            {
+                total += product.OrderedProduct.Price * product.Quantity;
+                _productInOrderRepository.Insert(product);
+            }
+
+            newOrder.Total = total;
+            _orderRepository.Update(newOrder);
+
+            shoppingCart.ProductInShoppingCarts.Clear();
+            _shoppingCartRepository.Update(shoppingCart);
+
+            return true;
         }
 
         public ShoppingCartDTO GetByUserIdWithIncludedProducts(Guid userId)

@@ -28,6 +28,7 @@ namespace EShop.Web.Controllers
             var userShoppingCart = _shoppingCartService.GetByUserIdWithIncludedProducts(Guid.Parse(userId));
             return View(userShoppingCart);
         }
+
         public IActionResult Delete(Guid id)
         {
             var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
@@ -35,6 +36,15 @@ namespace EShop.Web.Controllers
             _shoppingCartService.DeleteProductFromShoppingCart(id);
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult OrderNow()
+        {
+            var userId = User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+
+            _shoppingCartService.OrderProducts(userId);
+
+            return RedirectToAction("Index", "ShoppingCarts");
         }
     }
 }
