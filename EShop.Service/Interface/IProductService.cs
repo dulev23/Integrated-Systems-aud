@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EShop.Domain.DomainModels;
+using EShop.Domain.DTO;
 
 namespace EShop.Service.Interface
 {
@@ -14,6 +15,8 @@ namespace EShop.Service.Interface
         Product Add(Product product);
         Product DeleteById(Guid id);
         Product Update(Product product);
-        void AddProductToShoppingCart(Guid id, Guid userId);
+        Product Insert(Product product);
+        AddToCartDTO GetSelectedShoppingCartProduct(Guid id);
+        void AddProductToShoppingCart(Guid id, Guid userId, int quantity);
     }
 }

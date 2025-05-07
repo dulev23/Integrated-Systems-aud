@@ -14,16 +14,18 @@ namespace EShop.Service.Implementation
     public class ShoppingCartService : IShoppingCartService
     {
         private readonly IRepository<ShoppingCart> _shoppingCartRepository;
+        private readonly IRepository<ProductInShoppingCart> _productInShoppingCartRepository;
 
-        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository)
+        public ShoppingCartService(IRepository<ShoppingCart> shoppingCartRepository, IRepository<ProductInShoppingCart> productInShoppingCartRepository)
         {
             _shoppingCartRepository = shoppingCartRepository;
+            _productInShoppingCartRepository = productInShoppingCartRepository;
         }
 
         public ShoppingCartDTO GetByUserIdWithIncludedProducts(Guid userId)
         {
             var userCart = _shoppingCartRepository.Get(selector: x => x,
-                                                       predicate: x => x.OwnerId.Equals(userId.ToString()),
+                                                       predicate: x => x.OwnerId == userId.ToString(),
                                                        include: x => x.Include(z => z.ProductInShoppingCarts).ThenInclude(m => m.Product));
 
             var allProducts = userCart.ProductInShoppingCarts.ToList();
@@ -54,6 +56,20 @@ namespace EShop.Service.Implementation
         {
             return _shoppingCartRepository.Get(selector: x => x,
                                                predicate: x => x.OwnerId.Equals(userId.ToString()));
+        }
+
+        public void DeleteProductFromShoppingCart(Guid productInShoppingCartId)
+        {
+
+            var productInShoppingCart = _productInShoppingCartRepository.Get(selector: x => x,
+                                                                             predicate: x => x.Id.Equals(productInShoppingCartId));
+
+            if (productInShoppingCart == null)
+            {
+                throw new Exception("Product in shopping cart not found");
+            }
+
+            _productInShoppingCartRepository.Remove(productInShoppingCart);
         }
     }
 }

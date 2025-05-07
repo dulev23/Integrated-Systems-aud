@@ -32,7 +32,7 @@
                         <td>@currentProduct.Quantity</td>
                         <td>@currentProduct.Product.Price</td>
                         <td>
-                            <a asp-controller="ShoppingCart" asp-action="Delete" asp-route-id="@currentProduct.Id" class="btn btn-danger">Delete</a>
+                            <a asp-controller="ShoppingCarts" asp-action="Delete" asp-route-id="@currentProduct.Id" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                 }

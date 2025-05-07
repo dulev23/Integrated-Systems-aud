@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using EShop.Repository.Interface;
+using EShop.Domain.DTO;
 
 namespace EShop.Service.Implementation
 {
@@ -35,7 +36,7 @@ namespace EShop.Service.Implementation
                                                         && x.ProductId.ToString() == productId.ToString());
         }
 
-        private void UpdateCartItem(Product product, ShoppingCart shoppingCart)
+        private void UpdateCartItem(Product product, ShoppingCart shoppingCart, int quantity)
         {
             var existingProduct = GetProductInShoppingCart(product.Id, shoppingCart.Id);
 
@@ -48,22 +49,22 @@ namespace EShop.Service.Implementation
                     ShoppingCartId = shoppingCart.Id,
                     Product = product,
                     ShoppingCart = shoppingCart,
-                    Quantity = 1
+                    Quantity = quantity
                 };
                 _productInShoppingCartRepository.Insert(productInShoppingCart);
             } 
             else
             {
-                existingProduct.Quantity++;
+                existingProduct.Quantity+=quantity;
                 _productInShoppingCartRepository.Update(existingProduct);
             }
         }
 
-        public void AddProductToShoppingCart(Guid id, Guid userId)
+        public void AddProductToShoppingCart(Guid id, Guid userId, int quantity)
         {
             var shoppingCart = _shoppingCartService.GetUserById(userId);
 
-            if(shoppingCart == null)
+            if (shoppingCart == null)
             {
                 throw new Exception("Shopping cart not found");
             }
@@ -75,8 +76,8 @@ namespace EShop.Service.Implementation
                 throw new Exception("Product not found");
             }
 
-            UpdateCartItem(product, shoppingCart);
-            
+            UpdateCartItem(product, shoppingCart, quantity);
+
         }
 
         public Product DeleteById(Guid id)
@@ -104,6 +105,26 @@ namespace EShop.Service.Implementation
         public Product Update(Product product)
         {
             return _productRepository.Update(product);
+        }
+
+        public Product Insert(Product product)
+        {
+            product.Id = Guid.NewGuid();
+            return _productRepository.Insert(product);
+        }
+
+        public AddToCartDTO GetSelectedShoppingCartProduct(Guid id)
+        {
+            var selectedProduct = GetById(id);
+
+            var addProductToCartModel = new AddToCartDTO
+            {
+                SelectedProductId = selectedProduct.Id,
+                SelectedProductName = selectedProduct.Name,
+                Quantity = 1
+            };
+
+            return addProductToCartModel;
         }
     }
 }
