@@ -20,19 +20,19 @@ namespace EShop.Web.Controllers.API
             this._userManager = userManager;
         }
 
-        [HttpGet("action")]
+        [HttpGet("[action]")]
         public List<Order> GetAllOrders()
         {
             return this._orderService.GetAllOrders();
         }
 
-        [HttpPost("action")]
+        [HttpPost("[action]")]
         public Order GetOrderDetails(Guid Id)
         {
             return this._orderService.GetOrderDetails(Id);
         }
 
-        [HttpPost("action")]
+        [HttpPost("[action]")]
         public bool ImportAllUsers(List<UserRegistrationDTO> models)
         {
             bool status = true;
